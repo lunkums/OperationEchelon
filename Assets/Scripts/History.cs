@@ -15,6 +15,7 @@ public class History : MonoBehaviour
     private Queue<char> charQueue;
     // Maps a prefix to the number of rows a move uses
     private Dictionary<int, string> selectionPrefix;
+    private int entryCount;
 
     private void Awake()
     {
@@ -30,6 +31,7 @@ public class History : MonoBehaviour
     {
         text.text = "";
         countdown = 0;
+        entryCount = 0;
     }
 
     private void OnEnable()
@@ -56,6 +58,7 @@ public class History : MonoBehaviour
         if (charQueue.TryDequeue(out char c))
         {
             text.text += c;
+
             if (Random.Range(0, 1f) < clackFrequency)
             {
                 randomClack = typewriterClacks[Random.Range(0, typewriterClacks.Length - 1)];
@@ -69,7 +72,7 @@ public class History : MonoBehaviour
     // Appends a Move report message to the history buffer (for eventual typing).
     private void Append(Move move)
     {
-        string text = "";
+        string text = ++entryCount + ") ";
         if (!move.Valid)
             text += "[Failure] ";
         text += GetMessage(move);
