@@ -12,6 +12,7 @@ public class Troop : MonoBehaviour
 
     public Rank Rank => rank;
     public int Sign => sign;
+    public int SignedRank => (int)rank * sign;
     public Vector3 Position { set => _transform.position = Parent.position + value; }
     public Transform Parent { get => _transform.parent; set => _transform.parent = value; }
     public float Scale { set => _transform.localScale = Vector3.one * value; }
@@ -29,7 +30,7 @@ public class Troop : MonoBehaviour
         OnRankChange -= UpdateName;
     }
 
-    public bool TroopEquals(Troop troop)
+    public bool Equals(Troop troop)
     {
         return (int)Rank * Sign == (int)troop.Rank * troop.Sign;
     }
@@ -40,7 +41,24 @@ public class Troop : MonoBehaviour
         OnRankChange.Invoke();
     }
 
-    public void SetRank(int rank)
+    public void Promote()
+    {
+        SetSignedRank(rank.Next() * sign);
+    }
+
+    public void Demote()
+    {
+        SetSignedRank(rank.Previous() * sign);
+    }
+
+    public void Add(Troop troop)
+    {
+        int myRank = Math.Max(-1, (int)Math.Log((int)Rank, 2)) + 1;
+        int theirRank = Math.Max(-1, (int)Math.Log((int)troop.Rank, 2)) + 1;
+        SetSignedRank(myRank * Sign+ theirRank * troop.Sign);
+    }
+
+    public void SetSignedRank(int rank)
     {
         this.rank = (Rank)Math.Abs(rank);
         sign = Math.Sign(rank);

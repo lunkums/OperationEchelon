@@ -16,19 +16,20 @@ public class Formation : MonoBehaviour
     private Troop[,] currentLayout;
     private int rows;
     private int columns;
-
-    private Dictionary<Operation, Action<int[]>> operations;
+    // Maps Operations (enum) to their respective Formation move
+    private Dictionary<Operation, Move> operations;
 
     private float ScaledHorizontal => horizontalSpacing * scale;
     private float ScaledVertical => verticalSpacing * scale;
 
     public Troop[,] Troops => currentLayout;
 
-    public event Action OnMove;
+    public event Action<Operation, int[], bool> OnMoveAttempt;
+    public delegate bool Move(int[] selections);
 
     private void Awake()
     {
-        operations = new Dictionary<Operation, Action<int[]>>();
+        operations = new Dictionary<Operation, Move>();
         operations.Add(Operation.Convert, (selections) => Convert(selections));
         operations.Add(Operation.Promote, (selections) => Promote(selections));
         operations.Add(Operation.Demote, (selections) => Demote(selections));
@@ -45,8 +46,8 @@ public class Formation : MonoBehaviour
 
     public void ApplyOperation(Operation currentOperation, int[] selections)
     {
-        operations[currentOperation].Invoke(selections);
-        OnMove.Invoke();
+        bool isValid = operations[currentOperation].Invoke(selections);
+        OnMoveAttempt.Invoke(currentOperation, selections, isValid);
     }
 
     // Sets the Formation using a 2D array (matrix).
@@ -64,7 +65,7 @@ public class Formation : MonoBehaviour
             {
                 troop = Instantiate(troopPrefab);
                 rank = matrix[i, j];
-                troop.SetRank(rank);
+                troop.SetSignedRank(rank);
                 troop.Scale = scale;
                 troop.Parent = _transform;
                 currentLayout[i, j] = troop;
@@ -75,6 +76,7 @@ public class Formation : MonoBehaviour
         ScaleCollider();
     }
 
+    // Iterates through each formation and returns true if all Troops at each position are equal.
     public bool FormationEquals(Formation formation)
     {
         Troop[,] myTroops = Troops;
@@ -86,7 +88,7 @@ public class Formation : MonoBehaviour
         {
             for (j = 0; j < columns; j++)
             {
-                if (!myTroops[i, j].TroopEquals(theirTroops[i, j]))
+                if (!myTroops[i, j].Equals(theirTroops[i, j]))
                     return false;
             }
         }
@@ -124,31 +126,80 @@ public class Formation : MonoBehaviour
      * Formation operations.
      */
 
-    private void Convert(int[] selections)
+    // Flips the sign of every Troop in the selected row.
+    private bool Convert(int[] selections)
     {
         int j, row = selections[0];
 
         for (j = 0; j < columns; j++)
             currentLayout[row, j].FlipSign();
+
+        return true;
     }
 
-    private void Promote(int[] selections)
+    private bool Promote(int[] selections)
     {
+        bool isValid = true;
+        int j, row = selections[0];
 
+        // Validate the operation
+        for (j = 0; isValid && j < columns; j++)
+            isValid = currentLayout[row, j].Rank != Rank.General;
+        // Apply the operation
+        for (j = 0; isValid && j < columns; j++)
+            currentLayout[row, j].Promote();
+
+        return isValid;
     }
 
-    private void Demote(int[] selections)
+    private bool Demote(int[] selections)
     {
+        bool isValid = true;
+        int j, row = selections[0];
 
+        // Validate the operation
+        for (j = 0; isValid && j < columns; j++)
+            isValid = currentLayout[row, j].Rank != Rank.Private;
+        // Apply the operation
+        for (j = 0; isValid && j < columns; j++)
+            currentLayout[row, j].Demote();
+
+        return isValid;
     }
 
-    private void March(int[] selections)
+    private bool March(int[] selections)
     {
+        int j, firstRow = selections[0], secondRow = selections[1];
+        int signedRank;
 
+        for (j = 0; j < columns; j++)
+        {
+            signedRank = currentLayout[firstRow, j].SignedRank;
+            currentLayout[firstRow, j].SetSignedRank(currentLayout[secondRow, j].SignedRank);
+            currentLayout[secondRow, j].SetSignedRank(signedRank);
+        }
+
+        return true;
     }
 
-    private void Attack(int[] selections)
+    private bool Attack(int[] selections)
     {
+        bool isValid = true;
+        int j, firstRow = selections[0], secondRow = selections[1];
+        Troop t1, t2;
 
+        // Validate the operation
+        for (j = 0; isValid && j < columns; j++)
+        {
+            t1 = currentLayout[firstRow, j];
+            t2 = currentLayout[secondRow, j];
+            // Adding two generals together of the same sign is an invalid operation
+            isValid = !(t1.Sign == t2.Sign && (t1.Rank == Rank.General || t2.Rank == Rank.General));
+        }
+        // Apply the operation
+        for (j = 0; isValid && j < columns; j++)
+            currentLayout[secondRow, j].Add(currentLayout[firstRow, j]);
+
+        return isValid;
     }
 }

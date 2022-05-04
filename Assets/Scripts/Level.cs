@@ -20,12 +20,12 @@ public class Level : MonoBehaviour
 
     private void OnEnable()
     {
-        initialFormation.OnMove += () => movesLeft--;
+        initialFormation.OnMoveAttempt += FormationMoveListener;
     }
 
     private void OnDisable()
     {
-        initialFormation.OnMove -= () => movesLeft--;
+        initialFormation.OnMoveAttempt -= FormationMoveListener;
     }
 
     private void Update()
@@ -39,6 +39,12 @@ public class Level : MonoBehaviour
             else
                 Debug.Log("Lose!");
         }
+    }
+
+    private void FormationMoveListener(Operation operation, int[] selections, bool isValid)
+    {
+        if (isValid)
+            movesLeft--;
     }
 
     private void CreateLevelFromText()

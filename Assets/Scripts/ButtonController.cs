@@ -72,7 +72,7 @@ public class ButtonController : MonoBehaviour
 
             if (selections[0] != selections[1])
                 selectionsMade++;
-            OnRowSelect.Invoke(selections[selectionsNeeded]);
+            OnRowSelect.Invoke(selections[selectionsMade - 1]);
 
             if (selectionsMade != selectionsNeeded)
                 return;
