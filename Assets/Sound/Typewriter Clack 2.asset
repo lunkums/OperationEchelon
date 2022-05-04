@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c96bbd6205140245abd52950dc51e78, type: 3}
+  m_Name: Typewriter Clack 2
+  m_EditorClassIdentifier: 
+  clip: {fileID: 8300000, guid: 3919db6e36d094941a62bd0205bfc25d, type: 3}
+  type: 1
+  _name: Typewriter Clack 2

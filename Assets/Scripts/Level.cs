@@ -8,7 +8,6 @@ public class Level : MonoBehaviour
     [SerializeField] private Formation optimalFormation;
     [SerializeField] private GameObject buttonController;
 
-    private int totalMoves;
     private int movesLeft;
 
     public int MovesLeft => movesLeft;
@@ -41,9 +40,9 @@ public class Level : MonoBehaviour
         }
     }
 
-    private void FormationMoveListener(Operation operation, int[] selections, bool isValid)
+    private void FormationMoveListener(Move move)
     {
-        if (isValid)
+        if (move.Valid)
             movesLeft--;
     }
 
@@ -51,7 +50,7 @@ public class Level : MonoBehaviour
     {
         string text = levelTextFile.text;
         string[] words = text.Split(',');
-        movesLeft = totalMoves = int.Parse(words[0]);
+        movesLeft = int.Parse(words[0]);
         CreateFormationFromText(initialFormation, words[1].Trim());
         CreateFormationFromText(optimalFormation, words[2].Trim());
     }

@@ -77,7 +77,7 @@ public class ButtonController : MonoBehaviour
             if (selectionsMade != selectionsNeeded)
                 return;
 
-            formation.ApplyOperation(CurrentOperation, selections);
+            formation.ApplyMove(new Move(CurrentOperation, selections));
             ClearOperation();
         }
     }

@@ -17,24 +17,24 @@ public class Formation : MonoBehaviour
     private int rows;
     private int columns;
     // Maps Operations (enum) to their respective Formation move
-    private Dictionary<Operation, Move> operations;
+    private Dictionary<Operation, MoveStrategy> operations;
 
     private float ScaledHorizontal => horizontalSpacing * scale;
     private float ScaledVertical => verticalSpacing * scale;
 
     public Troop[,] Troops => currentLayout;
 
-    public event Action<Operation, int[], bool> OnMoveAttempt;
-    public delegate bool Move(int[] selections);
+    public event Action<Move> OnMoveAttempt;
+    public delegate bool MoveStrategy(int[] selections);
 
     private void Awake()
     {
-        operations = new Dictionary<Operation, Move>();
+        operations = new Dictionary<Operation, MoveStrategy>();
         operations.Add(Operation.Convert, (selections) => Convert(selections));
         operations.Add(Operation.Promote, (selections) => Promote(selections));
         operations.Add(Operation.Demote, (selections) => Demote(selections));
-        operations.Add(Operation.March, (selections) => March(selections));
-        operations.Add(Operation.Attack, (selections) => Attack(selections));
+        operations.Add(Operation.Swap, (selections) => March(selections));
+        operations.Add(Operation.Battle, (selections) => Battle(selections));
     }
 
     // Returns the row of the Formation given a position within it.
@@ -44,10 +44,10 @@ public class Formation : MonoBehaviour
         return (int)((topEdgeYCoord - position.y) / ScaledHorizontal);
     }
 
-    public void ApplyOperation(Operation currentOperation, int[] selections)
+    public void ApplyMove(Move move)
     {
-        bool isValid = operations[currentOperation].Invoke(selections);
-        OnMoveAttempt.Invoke(currentOperation, selections, isValid);
+        move.Valid = operations[move.Operation].Invoke(move.Selections);
+        OnMoveAttempt.Invoke(move);
     }
 
     // Sets the Formation using a 2D array (matrix).
@@ -137,6 +137,7 @@ public class Formation : MonoBehaviour
         return true;
     }
 
+    // If no Troop in the selected row is a General, increase each Troop's rank and return true.
     private bool Promote(int[] selections)
     {
         bool isValid = true;
@@ -152,6 +153,7 @@ public class Formation : MonoBehaviour
         return isValid;
     }
 
+    // If no Troop in the selected row is a Private, decrease each Troop's rank and return true.
     private bool Demote(int[] selections)
     {
         bool isValid = true;
@@ -182,7 +184,7 @@ public class Formation : MonoBehaviour
         return true;
     }
 
-    private bool Attack(int[] selections)
+    private bool Battle(int[] selections)
     {
         bool isValid = true;
         int j, firstRow = selections[0], secondRow = selections[1];

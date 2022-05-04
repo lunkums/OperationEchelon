@@ -5,8 +5,8 @@ public enum Operation
     Convert,
     Promote,
     Demote,
-    March,
-    Attack,
+    Swap,
+    Battle,
     None
 }
 
@@ -17,8 +17,8 @@ public static class OperationExtensions
         { Operation.Convert, 1 },
         { Operation.Promote, 1 },
         { Operation.Demote, 1 },
-        { Operation.March, 2 },
-        { Operation.Attack, 2 },
+        { Operation.Swap, 2 },
+        { Operation.Battle, 2 },
         { Operation.None, 0 },
     };
 

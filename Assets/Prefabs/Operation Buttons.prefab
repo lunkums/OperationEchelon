@@ -465,7 +465,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2446738421566404148, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_Name
-      value: Attack
+      value: Battle
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421566404154, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -609,7 +609,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421937948390, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_text
-      value: Attack
+      value: Battle
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
@@ -970,7 +970,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2446738421566404148, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_Name
-      value: March
+      value: Swap
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421566404154, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -1114,7 +1114,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421937948390, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_text
-      value: March
+      value: Swap
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}

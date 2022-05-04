@@ -4,7 +4,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     [SerializeField] private Sound[] sounds;
-    private Dictionary<string, Sound> soundTypes;
+    private Dictionary<string, Sound> soundMap;
 
     public static AudioManager Instance { get; private set; }
 
@@ -17,14 +17,14 @@ public class AudioManager : MonoBehaviour
         }
 
         AudioSource source;
-        soundTypes = new Dictionary<string, Sound>();
+        soundMap = new Dictionary<string, Sound>();
 
         foreach (Sound sound in sounds)
         {
             source = gameObject.AddComponent<AudioSource>();
             source.clip = sound.Clip;
             sound.Source = source;
-            soundTypes.Add(sound.Name, sound);
+            soundMap.Add(sound.Name, sound);
         }
 
         Instance = this;
@@ -32,7 +32,7 @@ public class AudioManager : MonoBehaviour
 
     public void Play(string clipName)
     {
-        soundTypes[clipName].Play();
+        soundMap[clipName].Play();
     }
 }
 
