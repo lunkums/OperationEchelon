@@ -88,7 +88,7 @@ public class Formation : MonoBehaviour
         {
             for (j = 0; j < columns; j++)
             {
-                if (!myTroops[i, j].Equals(theirTroops[i, j]))
+                if (myTroops[i, j].SignedRank != theirTroops[i, j].SignedRank)
                     return false;
             }
         }

@@ -30,11 +30,6 @@ public class Troop : MonoBehaviour
         OnRankChange -= UpdateName;
     }
 
-    public bool Equals(Troop troop)
-    {
-        return (int)Rank * Sign == (int)troop.Rank * troop.Sign;
-    }
-
     public void FlipSign()
     {
         SetSignedRank(SignedRank * -1);
