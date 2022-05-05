@@ -6,6 +6,7 @@ public class History : MonoBehaviour
 {
     [SerializeField] private Formation formation;
     [SerializeField] private TMP_Text text;
+    [SerializeField] private Level level;
     // SFX data
     [SerializeField] private Sound[] typewriterClacks;
     [Range(0f, 1f)] [SerializeField] private float clackFrequency;
@@ -29,19 +30,19 @@ public class History : MonoBehaviour
 
     private void Start()
     {
-        text.text = "";
-        countdown = 0;
-        entryCount = 0;
+        Clear();
     }
 
     private void OnEnable()
     {
         formation.OnMoveAttempt += Append;
+        level.OnRestart += Clear;
     }
 
     private void OnDisable()
     {
         formation.OnMoveAttempt -= Append;
+        level.OnRestart -= Clear;
     }
 
     /* Types another character to the history log if the buffer isn't empty and the countdown
@@ -67,6 +68,14 @@ public class History : MonoBehaviour
         }
 
         countdown = secondsBetweenTypes;
+    }
+
+    private void Clear()
+    {
+        charQueue.Clear();
+        text.text = "";
+        countdown = 0;
+        entryCount = 0;
     }
 
     // Appends a Move report message to the history buffer (for eventual typing).

@@ -1,27 +1,37 @@
+using System;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Level : MonoBehaviour
 {
     [SerializeField] private TextAsset levelTextFile;
-    [SerializeField] private Formation mainFormationTemplate;
+    [SerializeField] private Formation currentFormation;
     [SerializeField] private Formation optimalFormation;
     [SerializeField] private GameObject buttonController;
 
-    private Formation currentFormation;
     private int totalMoves;
     private int movesLeft;
     private string initialFormationStr;
 
     public int MovesLeft => movesLeft;
 
+    public event Action OnRestart;
+
     private void Start()
     {
-        // currentFormation is instantiated once to avoid a null check when deleting it on reset
-        mainFormationTemplate.Interactable = false;
-        currentFormation = Instantiate(mainFormationTemplate);
         CreateLevelFromText();
         Restart();
+    }
+
+    private void OnEnable()
+    {
+        currentFormation.OnMoveAttempt += FormationMoveListener;
+    }
+
+    private void OnDisable()
+    {
+        currentFormation.OnMoveAttempt -= FormationMoveListener;
     }
 
     public void Restart()
@@ -31,6 +41,7 @@ public class Level : MonoBehaviour
         // Reset level state
         movesLeft = totalMoves;
         buttonController.SetActive(true);
+        OnRestart.Invoke();
     }
 
     private void Update()
@@ -57,11 +68,7 @@ public class Level : MonoBehaviour
 
     private void ResetCurrentFormation()
     {
-        Destroy(currentFormation.gameObject);
-        currentFormation = Instantiate(mainFormationTemplate, mainFormationTemplate.Position, mainFormationTemplate.Rotation);
-        currentFormation.OnMoveAttempt += FormationMoveListener;
-        currentFormation.Interactable = true;
-        currentFormation.name = "Current Formation";
+        currentFormation.Clear();
         CreateFormationFromText(currentFormation, initialFormationStr);
     }
 

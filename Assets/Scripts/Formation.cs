@@ -5,6 +5,7 @@ using UnityEngine;
 public class Formation : MonoBehaviour
 {
     [SerializeField] private Troop troopPrefab;
+    [SerializeField] private Transform troopContainer;
     [SerializeField] private Transform _transform;
     [SerializeField] private BoxCollider2D _collider;
     // Position data
@@ -23,9 +24,6 @@ public class Formation : MonoBehaviour
     private float ScaledVertical => verticalSpacing * scale;
 
     public Troop[,] Troops => currentLayout;
-    public Vector3 Position => transform.position;
-    public Quaternion Rotation => transform.rotation;
-    public bool Interactable { set => _collider.enabled = value; }
 
     public event Action<Move> OnMoveAttempt;
     public delegate bool MoveStrategy(int[] selections);
@@ -38,6 +36,14 @@ public class Formation : MonoBehaviour
         operations.Add(Operation.Demote, (selections) => Demote(selections));
         operations.Add(Operation.Swap, (selections) => Swap(selections));
         operations.Add(Operation.Battle, (selections) => Battle(selections));
+    }
+
+    public void Clear()
+    {
+        Destroy(troopContainer.gameObject);
+        troopContainer = new GameObject("Troops").transform;
+        troopContainer.parent = _transform;
+        troopContainer.localPosition = Vector3.zero;
     }
 
     // Returns the row of the Formation given a position within it.
@@ -70,7 +76,7 @@ public class Formation : MonoBehaviour
                 rank = matrix[i, j];
                 troop.SetSignedRank(rank);
                 troop.Scale = scale;
-                troop.Parent = _transform;
+                troop.Parent = troopContainer.transform;
                 currentLayout[i, j] = troop;
             }
         }
