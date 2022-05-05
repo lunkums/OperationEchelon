@@ -195,8 +195,7 @@ public class Formation : MonoBehaviour
         {
             t1 = currentLayout[firstRow, j];
             t2 = currentLayout[secondRow, j];
-            // Adding two generals together of the same sign is an invalid operation
-            isValid = !(t1.Sign == t2.Sign && (t1.Rank == Rank.General || t2.Rank == Rank.General));
+            isValid = t1.CanAdd(t2);
         }
         // Apply the operation
         for (j = 0; isValid && j < columns; j++)

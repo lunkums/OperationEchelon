@@ -5,14 +5,14 @@ public class Troop : MonoBehaviour
 {
     private static readonly string[] signToPrefix = { "Red ", "", "Blue "};
 
-    [SerializeField] private Rank rank = 0;
+    [Range(0, 4)][SerializeField] private int rank = 0;
     [Range(-1, 1)] [SerializeField] private int sign = 1;
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Transform _transform;
 
-    public Rank Rank => rank;
+    public Rank Rank => (Rank)rank;
     public int Sign => sign;
-    public int SignedRank => (int)rank * sign;
+    public int SignedRank => rank * sign;
     public Vector3 Position { set => _transform.position = Parent.position + value; }
     public Transform Parent { get => _transform.parent; set => _transform.parent = value; }
     public float Scale { set => _transform.localScale = Vector3.one * value; }
@@ -37,31 +37,27 @@ public class Troop : MonoBehaviour
 
     public void FlipSign()
     {
-        sign *= -1;
-        OnRankChange.Invoke();
+        SetSignedRank(SignedRank * -1);
     }
 
     public void Promote()
     {
-        SetSignedRank(rank.Next() * sign);
+        SetSignedRank((rank + 1) % 5 * sign);
     }
 
     public void Demote()
     {
-        SetSignedRank(rank.Previous() * sign);
+        SetSignedRank(Math.Max(0, rank - 1) * sign);
     }
 
     public void Add(Troop troop)
     {
-        int myRank = Math.Max(-1, (int)Math.Log((int)Rank, 2)) + 1;
-        int theirRank = Math.Max(-1, (int)Math.Log((int)troop.Rank, 2)) + 1;
-        int newRank = myRank * Sign + theirRank * troop.Sign;
-        SetSignedRank(Math.Sign(newRank) * (int)Math.Pow(2, Math.Abs(newRank)) / 2);
+        SetSignedRank(SignedRank + troop.SignedRank);
     }
 
     public void SetSignedRank(int rank)
     {
-        this.rank = (Rank)Math.Abs(rank);
+        this.rank = Math.Abs(rank);
         sign = Math.Sign(rank);
         OnRankChange.Invoke();
     }
@@ -74,5 +70,13 @@ public class Troop : MonoBehaviour
     private void UpdateName()
     {
         name = signToPrefix[sign + 1] + rank.ToString();
+    }
+}
+
+public static class TroopExtensions
+{
+    public static bool CanAdd(this Troop t1, Troop t2)
+    {
+        return Math.Abs(t1.SignedRank + t2.SignedRank) <= (int)Rank.General;
     }
 }

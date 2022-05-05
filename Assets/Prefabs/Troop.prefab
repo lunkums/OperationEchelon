@@ -98,5 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rank: 0
+  sign: 0
   spriteRenderer: {fileID: 2500899232406350230}
   _transform: {fileID: 2500899232406350231}
