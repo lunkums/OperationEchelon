@@ -55,7 +55,8 @@ public class Troop : MonoBehaviour
     {
         int myRank = Math.Max(-1, (int)Math.Log((int)Rank, 2)) + 1;
         int theirRank = Math.Max(-1, (int)Math.Log((int)troop.Rank, 2)) + 1;
-        SetSignedRank(myRank * Sign+ theirRank * troop.Sign);
+        int newRank = myRank * Sign + theirRank * troop.Sign;
+        SetSignedRank(Math.Sign(newRank) * (int)Math.Pow(2, Math.Abs(newRank)) / 2);
     }
 
     public void SetSignedRank(int rank)
