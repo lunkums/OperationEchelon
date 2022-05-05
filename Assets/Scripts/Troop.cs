@@ -64,7 +64,7 @@ public class Troop : MonoBehaviour
 
     private void UpdateName()
     {
-        name = signToPrefix[sign + 1] + rank.ToString();
+        name = signToPrefix[sign + 1] + Rank.ToString();
     }
 }
 

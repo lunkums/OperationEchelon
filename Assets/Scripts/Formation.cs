@@ -23,6 +23,9 @@ public class Formation : MonoBehaviour
     private float ScaledVertical => verticalSpacing * scale;
 
     public Troop[,] Troops => currentLayout;
+    public Vector3 Position => transform.position;
+    public Quaternion Rotation => transform.rotation;
+    public bool Interactable { set => _collider.enabled = value; }
 
     public event Action<Move> OnMoveAttempt;
     public delegate bool MoveStrategy(int[] selections);
@@ -33,7 +36,7 @@ public class Formation : MonoBehaviour
         operations.Add(Operation.Convert, (selections) => Convert(selections));
         operations.Add(Operation.Promote, (selections) => Promote(selections));
         operations.Add(Operation.Demote, (selections) => Demote(selections));
-        operations.Add(Operation.Swap, (selections) => March(selections));
+        operations.Add(Operation.Swap, (selections) => Swap(selections));
         operations.Add(Operation.Battle, (selections) => Battle(selections));
     }
 
@@ -169,7 +172,7 @@ public class Formation : MonoBehaviour
         return isValid;
     }
 
-    private bool March(int[] selections)
+    private bool Swap(int[] selections)
     {
         int j, firstRow = selections[0], secondRow = selections[1];
         int signedRank;

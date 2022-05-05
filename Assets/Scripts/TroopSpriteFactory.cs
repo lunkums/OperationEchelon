@@ -16,7 +16,6 @@ public class TroopSpriteFactory : MonoBehaviour
 
     public Sprite GetSprite(Troop troop)
     {
-        Debug.Log("Sprite Index : " + troop.SignedRank + 4);
         return rankSprites[troop.SignedRank + 4];
     }
 }

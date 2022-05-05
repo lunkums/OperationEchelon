@@ -4,27 +4,33 @@ using UnityEngine;
 public class Level : MonoBehaviour
 {
     [SerializeField] private TextAsset levelTextFile;
-    [SerializeField] private Formation initialFormation;
+    [SerializeField] private Formation mainFormationTemplate;
     [SerializeField] private Formation optimalFormation;
     [SerializeField] private GameObject buttonController;
 
+    private Formation currentFormation;
+    private int totalMoves;
     private int movesLeft;
+    private string initialFormationStr;
 
     public int MovesLeft => movesLeft;
 
     private void Start()
     {
+        // currentFormation is instantiated once to avoid a null check when deleting it on reset
+        mainFormationTemplate.Interactable = false;
+        currentFormation = Instantiate(mainFormationTemplate);
         CreateLevelFromText();
+        Restart();
     }
 
-    private void OnEnable()
+    public void Restart()
     {
-        initialFormation.OnMoveAttempt += FormationMoveListener;
-    }
-
-    private void OnDisable()
-    {
-        initialFormation.OnMoveAttempt -= FormationMoveListener;
+        // Clean up the old formation and create a new one
+        ResetCurrentFormation();
+        // Reset level state
+        movesLeft = totalMoves;
+        buttonController.SetActive(true);
     }
 
     private void Update()
@@ -33,11 +39,14 @@ public class Level : MonoBehaviour
         {
             buttonController.SetActive(false);
 
-            if (initialFormation.FormationEquals(optimalFormation))
+            if (currentFormation.FormationEquals(optimalFormation))
                 Debug.Log("Win!");
             else
                 Debug.Log("Lose!");
         }
+
+        if (Input.GetKeyDown(KeyCode.R))
+            Restart();
     }
 
     private void FormationMoveListener(Move move)
@@ -46,12 +55,22 @@ public class Level : MonoBehaviour
             movesLeft--;
     }
 
+    private void ResetCurrentFormation()
+    {
+        Destroy(currentFormation.gameObject);
+        currentFormation = Instantiate(mainFormationTemplate, mainFormationTemplate.Position, mainFormationTemplate.Rotation);
+        currentFormation.OnMoveAttempt += FormationMoveListener;
+        currentFormation.Interactable = true;
+        currentFormation.name = "Current Formation";
+        CreateFormationFromText(currentFormation, initialFormationStr);
+    }
+
     private void CreateLevelFromText()
     {
         string text = levelTextFile.text;
         string[] words = text.Split(',');
-        movesLeft = int.Parse(words[0]);
-        CreateFormationFromText(initialFormation, words[1].Trim());
+        totalMoves = movesLeft = int.Parse(words[0]);
+        initialFormationStr = words[1].Trim();
         CreateFormationFromText(optimalFormation, words[2].Trim());
     }
 
@@ -61,7 +80,6 @@ public class Level : MonoBehaviour
         string[] rows = s.Split('\n');
         int numOfColumns = rows[0].Count(f => (f == ' ')) + 1;
         int[,] result = new int[rows.Length, numOfColumns];
-        Debug.Log("rows : " + rows.Length +  ", num cols : " + numOfColumns);
 
         foreach (string row in rows)
         {
