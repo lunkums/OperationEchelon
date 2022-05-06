@@ -1,14 +1,12 @@
 using System;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Level : MonoBehaviour
 {
     [SerializeField] private TextAsset levelTextFile;
     [SerializeField] private Formation currentFormation;
     [SerializeField] private Formation optimalFormation;
-    [SerializeField] private GameObject buttonController;
 
     private int totalMoves;
     private int movesLeft;
@@ -17,6 +15,7 @@ public class Level : MonoBehaviour
     public int MovesLeft => movesLeft;
 
     public event Action OnRestart;
+    public event Action<bool> OnWin;
 
     private void Start()
     {
@@ -27,6 +26,7 @@ public class Level : MonoBehaviour
     private void OnEnable()
     {
         currentFormation.OnMoveAttempt += FormationMoveListener;
+        OnWin += (hasWon) => Debug.Log("Has won? " + hasWon);
     }
 
     private void OnDisable()
@@ -40,30 +40,26 @@ public class Level : MonoBehaviour
         ResetCurrentFormation();
         // Reset level state
         movesLeft = totalMoves;
-        buttonController.SetActive(true);
         OnRestart.Invoke();
     }
 
     private void Update()
     {
-        if (movesLeft == 0)
-        {
-            buttonController.SetActive(false);
-
-            if (currentFormation.FormationEquals(optimalFormation))
-                Debug.Log("Win!");
-            else
-                Debug.Log("Lose!");
-        }
-
         if (Input.GetKeyDown(KeyCode.R))
             Restart();
     }
 
     private void FormationMoveListener(Move move)
     {
-        if (move.Valid)
-            movesLeft--;
+        if (!move.Valid)
+            return;
+
+        movesLeft--;
+
+        if (currentFormation.FormationEquals(optimalFormation))
+            OnWin.Invoke(true);
+        else if (movesLeft == 0)
+            OnWin.Invoke(false);
     }
 
     private void ResetCurrentFormation()
@@ -72,6 +68,7 @@ public class Level : MonoBehaviour
         CreateFormationFromText(currentFormation, initialFormationStr);
     }
 
+    // Sets the total moves, initial formation, and optimal formation from the given text file.
     private void CreateLevelFromText()
     {
         string text = levelTextFile.text;
@@ -81,6 +78,8 @@ public class Level : MonoBehaviour
         CreateFormationFromText(optimalFormation, words[2].Trim());
     }
 
+    /* Creates a Formation by parsing the text representation of a matrix into a 2D int,
+       then loading it into the Formation. */
     private void CreateFormationFromText(Formation formation, string s)
     {
         int i = 0, j;

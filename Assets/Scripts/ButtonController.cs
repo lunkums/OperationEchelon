@@ -6,25 +6,44 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private Sound buttonSound;
     [SerializeField] private GameObject cancelButton;
     [SerializeField] private GameObject[] operationButtons;
+    [SerializeField] private Level level;
 
     // Update behaviour (mouse listening state or not)
     private Action updateBehaviour;
-    // Variables for selecting rows that are used in operations
+    // Variables for selecting rows that are used in Operations
     private int[] selections;
     private int selectionsNeeded;
     private int selectionsMade;
 
-    private void Start()
-    {
-        updateBehaviour = () => { };
-        selectionsNeeded = 0;
-    }
-
+    public bool CanPerformOperations { get; private set; }
     public Operation CurrentOperation { get; private set; }
 
     public event Action<Operation> OnSetOperation;
     public event Action<int> OnRowSelect;
 
+    private void Start()
+    {
+        Restart();
+    }
+
+    private void OnEnable()
+    {
+        level.OnRestart += Restart;
+        level.OnWin += (hasWon) => CanPerformOperations = false;
+    }
+
+    private void OnDisable()
+    {
+        level.OnRestart -= Restart;
+        level.OnWin -= (hasWon) => CanPerformOperations = false;
+    }
+
+    private void Update()
+    {
+        updateBehaviour.Invoke();
+    }
+
+    // Sets the Operations, disables the Operation buttons, and starts polling for a selected row.
     public void SetOperation(int operation)
     {
         CurrentOperation = (Operation)operation;
@@ -34,17 +53,16 @@ public class ButtonController : MonoBehaviour
         selectionsMade = 0;
         selections = new int[] { -1, -1 };
         // Update the buttons
-        foreach (GameObject button in operationButtons)
-            button.SetActive(false);
+        ActivateOperationButtons(false);
         cancelButton.SetActive(true);
         OnSetOperation.Invoke(CurrentOperation);
     }
 
+    // Sets the current Operation to none and ensures this class stops checking for a selected row.
     public void ClearOperation()
     {
         SetOperation((int)Operation.None);
-        foreach (GameObject button in operationButtons)
-            button.SetActive(true);
+        ActivateOperationButtons(true);
         cancelButton.SetActive(false);
         updateBehaviour = () => { };
     }
@@ -52,6 +70,20 @@ public class ButtonController : MonoBehaviour
     public void PlayButtonSound()
     {
         AudioManager.Instance.Play(buttonSound.Name);
+    }
+
+    private void Restart()
+    {
+        updateBehaviour = () => { };
+        selectionsNeeded = 0;
+        CanPerformOperations = true;
+        ActivateOperationButtons(true);
+    }
+
+    private void ActivateOperationButtons(bool active)
+    {
+        foreach (GameObject button in operationButtons)
+            button.SetActive(active && CanPerformOperations);
     }
 
     /* An update behaviour that checks to see if there is a mouse click within the
@@ -66,24 +98,19 @@ public class ButtonController : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
-        if (hit.collider != null && hit.transform.TryGetComponent(out formation))
-        {
-            selections[selectionsMade] = formation.SelectRow(mousePos);
+        if (hit.collider == null || !hit.transform.TryGetComponent(out formation))
+            return;
 
-            if (selections[0] != selections[1])
-                selectionsMade++;
-            OnRowSelect.Invoke(selections[selectionsMade - 1]);
+        selections[selectionsMade] = formation.SelectRow(mousePos);
 
-            if (selectionsMade != selectionsNeeded)
-                return;
+        if (selections[0] != selections[1])
+            selectionsMade++;
+        OnRowSelect.Invoke(selections[selectionsMade - 1]);
 
-            formation.ApplyMove(new Move(CurrentOperation, selections));
-            ClearOperation();
-        }
-    }
+        if (selectionsMade != selectionsNeeded)
+            return;
 
-    private void Update()
-    {
-        updateBehaviour.Invoke();
+        formation.ApplyMove(new Move(CurrentOperation, selections));
+        ClearOperation();
     }
 }
