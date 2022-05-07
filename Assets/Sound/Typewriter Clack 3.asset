@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c96bbd6205140245abd52950dc51e78, type: 3}
   m_Name: Typewriter Clack 3
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 06400595f55e5f34ba7d1157662ebe96, type: 3}
+  clip: {fileID: 8300000, guid: a3790634adf8fa64980828fe61abf72f, type: 3}
   type: 1
   _name: Typewriter Clack 3

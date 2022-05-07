@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6c96bbd6205140245abd52950dc51e78, type: 3}
-  m_Name: Typewriter Clack 1
+  m_Name: Win
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 127939df4211c4d4295cade18cae1318, type: 3}
+  clip: {fileID: 8300000, guid: 5dd6a8da8e7f674419a99e0f251247d0, type: 3}
   type: 1
-  _name: Typewriter Clack 1
+  _name: You Win

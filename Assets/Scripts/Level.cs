@@ -26,7 +26,6 @@ public class Level : MonoBehaviour
     private void OnEnable()
     {
         currentFormation.OnMoveAttempt += FormationMoveListener;
-        OnWin += (hasWon) => Debug.Log("Has won? " + hasWon);
     }
 
     private void OnDisable()

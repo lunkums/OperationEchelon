@@ -67,7 +67,9 @@ public class History : MonoBehaviour
             }
         }
 
-        countdown = secondsBetweenTypes;
+        /* The countdown timer scales with how many characters there are in the queue to prevent a
+           "lagging" buffer. */
+        countdown = secondsBetweenTypes / (charQueue.Count + 1);
     }
 
     private void Clear()

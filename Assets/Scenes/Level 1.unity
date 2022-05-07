@@ -123,6 +123,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!114 &133843668 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8281633121541897670, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
+  m_PrefabInstance: {fileID: 8281633121327941826}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a041a1d6be9e8ab4b9fcbd5cd04cf6e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,6 +227,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 954776470}
+  - component: {fileID: 954776471}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -238,6 +250,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &954776471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 954776468}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00a09c4a6723bb543b2d2c3633ee92fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentLevel: {fileID: 133843668}
+  winSfx: {fileID: 11400000, guid: 07ad97a4cc519314fbe481a77cac89f8, type: 2}
+  loseSfx: {fileID: 11400000, guid: dc7aee972e8d38e4d80da0fa6e4c0ebe, type: 2}
 --- !u!1 &1443757607
 GameObject:
   m_ObjectHideFlags: 0
@@ -287,6 +314,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 4dcfa7192619bc5498a9c7e2da162858, type: 2}
   - {fileID: 11400000, guid: 835f2f8531d4cec44b016394726b350c, type: 2}
   - {fileID: 11400000, guid: 2688b2a5dfd11be4da0f12cc7590bb33, type: 2}
+  - {fileID: 11400000, guid: 07ad97a4cc519314fbe481a77cac89f8, type: 2}
+  - {fileID: 11400000, guid: dc7aee972e8d38e4d80da0fa6e4c0ebe, type: 2}
 --- !u!1 &1772473939
 GameObject:
   m_ObjectHideFlags: 0
@@ -402,10 +431,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8281633121541897671, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8281633121967357246, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
-      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
