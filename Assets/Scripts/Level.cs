@@ -4,24 +4,18 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    [SerializeField] private TextAsset levelTextFile;
     [SerializeField] private Formation currentFormation;
     [SerializeField] private Formation optimalFormation;
 
+    private string initialFormationStr;
+    private string optimalFormationStr;
     private int totalMoves;
     private int movesLeft;
-    private string initialFormationStr;
 
     public int MovesLeft => movesLeft;
 
     public event Action OnRestart;
     public event Action<bool> OnWin;
-
-    private void Start()
-    {
-        CreateLevelFromText();
-        Restart();
-    }
 
     private void OnEnable()
     {
@@ -36,10 +30,22 @@ public class Level : MonoBehaviour
     public void Restart()
     {
         // Clean up the old formation and create a new one
-        ResetCurrentFormation();
+        ResetFormation(currentFormation, initialFormationStr);
+        ResetFormation(optimalFormation, optimalFormationStr);
         // Reset level state
         movesLeft = totalMoves;
         OnRestart.Invoke();
+    }
+
+    // Sets the total moves, initial formation, and optimal formation from the given text file.
+    public void CreateLevelFromText(TextAsset textFile)
+    {
+        string text = textFile.text;
+        string[] words = text.Split(',');
+        totalMoves = movesLeft = int.Parse(words[0]);
+        initialFormationStr = words[1].Trim();
+        optimalFormationStr = words[2].Trim();
+        Restart();
     }
 
     private void Update()
@@ -61,20 +67,10 @@ public class Level : MonoBehaviour
             OnWin.Invoke(false);
     }
 
-    private void ResetCurrentFormation()
+    private void ResetFormation(Formation formation, string formationStr)
     {
-        currentFormation.Clear();
-        CreateFormationFromText(currentFormation, initialFormationStr);
-    }
-
-    // Sets the total moves, initial formation, and optimal formation from the given text file.
-    private void CreateLevelFromText()
-    {
-        string text = levelTextFile.text;
-        string[] words = text.Split(',');
-        totalMoves = movesLeft = int.Parse(words[0]);
-        initialFormationStr = words[1].Trim();
-        CreateFormationFromText(optimalFormation, words[2].Trim());
+        formation.Clear();
+        CreateFormationFromText(formation, formationStr);
     }
 
     /* Creates a Formation by parsing the text representation of a matrix into a 2D int,

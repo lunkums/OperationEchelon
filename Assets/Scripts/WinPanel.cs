@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class WinPanel : MonoBehaviour
@@ -18,15 +19,26 @@ public class WinPanel : MonoBehaviour
         level.OnRestart -= DisableWinPanel;
     }
 
+    public void Continue()
+    {
+        LevelManager.Instance.LoadNextLevel();
+    }
+
     private void EnableWinPanel(bool hasWon)
     {
-        winPanel.SetActive(hasWon);
-        losePanel.SetActive(!hasWon);
+        StartCoroutine(DelayedEnableWinPanel(hasWon));
     }
 
     private void DisableWinPanel()
     {
         winPanel.SetActive(false);
         losePanel.SetActive(false);
+    }
+
+    private IEnumerator DelayedEnableWinPanel(bool hasWon)
+    {
+        yield return new WaitForSeconds(1);
+        winPanel.SetActive(hasWon);
+        losePanel.SetActive(!hasWon);
     }
 }

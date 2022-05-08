@@ -5,10 +5,14 @@ public class LevelManager : MonoBehaviour
     [SerializeField] private Level currentLevel;
     [SerializeField] private Sound winSfx;
     [SerializeField] private Sound loseSfx;
+    [SerializeField] private TextAsset[] levelFiles;
+
+    private int indexOfCurrentLevel;
 
     public static LevelManager Instance { get; private set; }
 
     public Level CurrentLevel => currentLevel;
+    public int IndexOfCurrentLevel => indexOfCurrentLevel;
 
     private void Awake()
     {
@@ -16,6 +20,11 @@ public class LevelManager : MonoBehaviour
             Destroy(this);
         else
             Instance = this;
+    }
+
+    private void Start()
+    {
+        currentLevel.CreateLevelFromText(levelFiles[indexOfCurrentLevel = 0]);
     }
 
     private void OnEnable()
@@ -26,6 +35,21 @@ public class LevelManager : MonoBehaviour
     private void OnDisable()
     {
         currentLevel.OnWin -= PlayWinSoundEffect;
+    }
+
+    public void ReturnToMenu()
+    {
+
+    }
+
+    public void LoadNextLevel()
+    {
+        LoadLevelFromIndex((indexOfCurrentLevel + 1) % levelFiles.Length);
+    }
+
+    public void LoadLevelFromIndex(int level)
+    {
+        currentLevel.CreateLevelFromText(levelFiles[indexOfCurrentLevel = level]);
     }
 
     private void PlayWinSoundEffect(bool hasWon)
