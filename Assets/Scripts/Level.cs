@@ -11,8 +11,10 @@ public class Level : MonoBehaviour
     private string optimalFormationStr;
     private int totalMoves;
     private int movesLeft;
+    private int[] allowableOperations;
 
     public int MovesLeft => movesLeft;
+    public int[] AllowableOperations => allowableOperations;
 
     public event Action OnRestart;
     public event Action<bool> OnWin;
@@ -43,8 +45,9 @@ public class Level : MonoBehaviour
         string text = textFile.text;
         string[] words = text.Split(',');
         totalMoves = movesLeft = int.Parse(words[0]);
-        initialFormationStr = words[1].Trim();
-        optimalFormationStr = words[2].Trim();
+        allowableOperations = text.Split(' ').Select(n => Convert.ToInt32(words[1])).ToArray();
+        initialFormationStr = words[2].Trim();
+        optimalFormationStr = words[3].Trim();
         Restart();
     }
 

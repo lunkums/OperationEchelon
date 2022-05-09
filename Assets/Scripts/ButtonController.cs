@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class ButtonController : MonoBehaviour
@@ -7,6 +8,8 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private GameObject cancelButton;
     [SerializeField] private GameObject[] operationButtons;
     [SerializeField] private Level level;
+
+    private List<GameObject> activeOperationButtons;
 
     // Update behaviour (mouse listening state or not)
     private Action updateBehaviour;
@@ -21,9 +24,9 @@ public class ButtonController : MonoBehaviour
     public event Action<Operation> OnSetOperation;
     public event Action<int> OnRowSelect;
 
-    private void Start()
+    private void Awake()
     {
-        Restart();
+        activeOperationButtons = new List<GameObject>();
     }
 
     private void OnEnable()
@@ -72,17 +75,25 @@ public class ButtonController : MonoBehaviour
         AudioManager.Instance.Play(buttonSound.Name);
     }
 
+    private void AllowOperation(int index)
+    {
+        activeOperationButtons.Add(operationButtons[index]);
+    }
+
     private void Restart()
     {
         updateBehaviour = () => { };
         selectionsNeeded = 0;
         CanPerformOperations = true;
+        activeOperationButtons.Clear();
+        foreach (int i in level.AllowableOperations)
+            activeOperationButtons.Add(operationButtons[i]);
         ActivateOperationButtons(true);
     }
 
     private void ActivateOperationButtons(bool active)
     {
-        foreach (GameObject button in operationButtons)
+        foreach (GameObject button in activeOperationButtons)
             button.SetActive(active && CanPerformOperations);
     }
 
