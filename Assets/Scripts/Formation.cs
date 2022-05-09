@@ -26,6 +26,8 @@ public class Formation : MonoBehaviour
     private float ScaledVertical => verticalSpacing * scale;
 
     public Troop[,] Troops => currentLayout;
+    public bool Interactable => interactable;
+    public Vector3 RowSelectorPosition { get; private set; }
 
     public event Action<Move> OnMoveAttempt;
     public delegate bool MoveStrategy(int[] selections);
@@ -51,8 +53,10 @@ public class Formation : MonoBehaviour
     // Returns the row of the Formation given a position within it.
     public int SelectRow(Vector3 position)
     {
-        float topEdgeYCoord = _transform.position.y  +  rows * ScaledHorizontal / 2;
-        return (int)((topEdgeYCoord - position.y) / ScaledHorizontal);
+        float topEdgeYCoord = _transform.position.y + rows * ScaledHorizontal / 2;
+        int row = (int)((topEdgeYCoord - position.y) / ScaledHorizontal);
+        RowSelectorPosition = new Vector3(-(columns + 1) / 2f, topEdgeYCoord - (row + 0.5f) * ScaledHorizontal);
+        return row;
     }
 
     public void ApplyMove(Move move)
@@ -69,8 +73,6 @@ public class Formation : MonoBehaviour
         rows = matrix.GetLength(0);
         columns = matrix.GetLength(1);
         currentLayout = new Troop[rows, columns];
-        // Collider is temporarily enabled to get the bounds from it
-        _collider.enabled = true;
 
         for (i  = 0; i < rows; i++)
         {
@@ -88,7 +90,6 @@ public class Formation : MonoBehaviour
         RepositionTroops();
         ScaleCollider();
         DrawGrid();
-        _collider.enabled = interactable;
     }
 
     // Iterates through each formation and returns true if all Troops at each position are equal.

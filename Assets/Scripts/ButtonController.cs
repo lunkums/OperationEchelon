@@ -8,6 +8,7 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private GameObject cancelButton;
     [SerializeField] private GameObject[] operationButtons;
     [SerializeField] private Level level;
+    [SerializeField] private GameObject rowSelector;
 
     private List<GameObject> activeOperationButtons;
 
@@ -67,6 +68,7 @@ public class ButtonController : MonoBehaviour
         SetOperation((int)Operation.None);
         ActivateOperationButtons(true);
         cancelButton.SetActive(false);
+        rowSelector.SetActive(false);
         updateBehaviour = () => { };
     }
 
@@ -109,10 +111,12 @@ public class ButtonController : MonoBehaviour
         Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
 
-        if (hit.collider == null || !hit.transform.TryGetComponent(out formation))
+        if (hit.collider == null || !hit.transform.TryGetComponent(out formation) || !formation.Interactable)
             return;
 
         selections[selectionsMade] = formation.SelectRow(mousePos);
+        rowSelector.SetActive(true);
+        rowSelector.transform.position = formation.RowSelectorPosition;
 
         if (selections[0] != selections[1])
             selectionsMade++;

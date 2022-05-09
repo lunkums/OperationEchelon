@@ -260,7 +260,7 @@ MonoBehaviour:
   troopContainer: {fileID: 4893220790871981256}
   _transform: {fileID: 8938311874604965266}
   _collider: {fileID: 3442741314974708442}
-  interactable: 0
+  interactable: 1
   grid: {fileID: 8623064644049105740}
   scale: 1
   horizontalSpacing: 1

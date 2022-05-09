@@ -91,6 +91,7 @@ MonoBehaviour:
   - {fileID: 5146641471678535824}
   - {fileID: 4199802136923303713}
   level: {fileID: 0}
+  rowSelector: {fileID: 0}
 --- !u!1001 &496605641428698750
 PrefabInstance:
   m_ObjectHideFlags: 0
