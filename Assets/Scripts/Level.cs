@@ -45,7 +45,7 @@ public class Level : MonoBehaviour
         string text = textFile.text;
         string[] words = text.Split(',');
         totalMoves = movesLeft = int.Parse(words[0]);
-        allowableOperations = text.Split(' ').Select(n => Convert.ToInt32(words[1])).ToArray();
+        allowableOperations = words[1].Split(' ').Select(n => Convert.ToInt32(n)).ToArray();
         initialFormationStr = words[2].Trim();
         optimalFormationStr = words[3].Trim();
         Restart();

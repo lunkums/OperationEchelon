@@ -1,0 +1,4 @@
+﻿totalMoves (int),
+allowableOperations (int[]),
+initialFormation (int[,]),
+optimalFormation (int[,])

@@ -35,7 +35,7 @@ public class Formation : MonoBehaviour
         operations.Add(Operation.Promote, (selections) => Promote(selections));
         operations.Add(Operation.Demote, (selections) => Demote(selections));
         operations.Add(Operation.Swap, (selections) => Swap(selections));
-        operations.Add(Operation.Battle, (selections) => Battle(selections));
+        operations.Add(Operation.Attack, (selections) => Attack(selections));
     }
 
     public void Clear()
@@ -193,7 +193,7 @@ public class Formation : MonoBehaviour
         return true;
     }
 
-    private bool Battle(int[] selections)
+    private bool Attack(int[] selections)
     {
         bool isValid = true;
         int j, firstRow = selections[0], secondRow = selections[1];

@@ -90,6 +90,7 @@ MonoBehaviour:
   - {fileID: 7089860105035203028}
   - {fileID: 5146641471678535824}
   - {fileID: 4199802136923303713}
+  level: {fileID: 0}
 --- !u!1001 &496605641428698750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -465,7 +466,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2446738421566404148, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_Name
-      value: Battle
+      value: Attack
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421566404154, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -609,7 +610,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421937948390, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_text
-      value: Battle
+      value: Attack
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}

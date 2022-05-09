@@ -16,6 +16,7 @@ public class History : MonoBehaviour
     private Queue<char> charQueue;
     // Maps a prefix to the number of rows a move uses
     private Dictionary<int, string> selectionPrefix;
+    private Dictionary<Operation, string> selectionSuffix;
     private int entryCount;
 
     private void Awake()
@@ -24,6 +25,12 @@ public class History : MonoBehaviour
         {
             { 1, " row " },
             { 2, " rows " }
+        };
+        selectionSuffix = new Dictionary<Operation, string>()
+        {
+            { Operation.Promote, " - Cannot promote past " + Rank.General },
+            { Operation.Demote, " - Cannot demote below " + Rank.Private },
+            { Operation.Attack, " - " + Operation.Attack + " will result in a rank higher than " + Rank.General }
         };
         charQueue = new Queue<char>();
     }
@@ -99,7 +106,8 @@ public class History : MonoBehaviour
         string text = move.Operation.ToString() + selectionPrefix[move.Operation.SelectionsNeeded()] + move.Selections[i];
         for (i = 1; i < move.Operation.SelectionsNeeded(); i++)
             text += ", " + move.Selections[i];
-        Debug.Log(text);
+        if (!move.Valid && selectionSuffix.TryGetValue(move.Operation, out string suffix))
+            text += suffix;
         return text + "\n";
     }
 }
