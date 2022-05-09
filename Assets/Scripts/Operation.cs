@@ -3,9 +3,9 @@ using System.Collections.Generic;
 public enum Operation
 {
     Convert,
+    Swap,
     Promote,
     Demote,
-    Swap,
     Attack,
     None
 }

@@ -28,8 +28,8 @@ public class History : MonoBehaviour
         };
         selectionSuffix = new Dictionary<Operation, string>()
         {
-            { Operation.Promote, " - Cannot promote past " + Rank.General },
-            { Operation.Demote, " - Cannot demote below " + Rank.Private },
+            { Operation.Promote, " - Cannot " + Operation.Promote + " past " + Rank.General },
+            { Operation.Demote, " - Cannot " + Operation.Demote + " below " + Rank.Private },
             { Operation.Attack, " - " + Operation.Attack + " will result in a rank higher than " + Rank.General }
         };
         charQueue = new Queue<char>();
