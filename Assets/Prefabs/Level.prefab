@@ -2910,6 +2910,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Current Formation
       objectReference: {fileID: 0}
+    - target: {fileID: 8938311874604965265, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: verticalSpacing
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8938311874604965265, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: horizontalSpacing
+      value: 1.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8938311874604965266, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -3444,14 +3452,6 @@ PrefabInstance:
       propertyPath: collider
       value: 
       objectReference: {fileID: 6712992987168251332}
-    - target: {fileID: 8938311874604965265, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
-      propertyPath: verticalSpacing
-      value: 1.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 8938311874604965265, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
-      propertyPath: horizontalSpacing
-      value: 1.5
-      objectReference: {fileID: 0}
     - target: {fileID: 8938311874604965265, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
       propertyPath: troops.Array.size
       value: 5

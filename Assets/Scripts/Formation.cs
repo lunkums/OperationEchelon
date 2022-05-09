@@ -8,10 +8,12 @@ public class Formation : MonoBehaviour
     [SerializeField] private Transform troopContainer;
     [SerializeField] private Transform _transform;
     [SerializeField] private BoxCollider2D _collider;
+    [SerializeField] private bool interactable;
+    [SerializeField] private FormationGrid grid;
     // Position data
     [Range(0f, 1f)][SerializeField] private float scale = 1f;
-    [SerializeField] private float horizontalSpacing;
-    [SerializeField] private float verticalSpacing;
+    [Range(1f, 2f)][SerializeField] private float horizontalSpacing;
+    [Range(1f, 2f)] [SerializeField] private float verticalSpacing;
     private Vector3 centerOffset;
     // Matrix data
     private Troop[,] currentLayout;
@@ -67,6 +69,8 @@ public class Formation : MonoBehaviour
         rows = matrix.GetLength(0);
         columns = matrix.GetLength(1);
         currentLayout = new Troop[rows, columns];
+        // Collider is temporarily enabled to get the bounds from it
+        _collider.enabled = true;
 
         for (i  = 0; i < rows; i++)
         {
@@ -83,6 +87,8 @@ public class Formation : MonoBehaviour
         CalculateOffset();
         RepositionTroops();
         ScaleCollider();
+        DrawGrid();
+        _collider.enabled = interactable;
     }
 
     // Iterates through each formation and returns true if all Troops at each position are equal.
@@ -107,6 +113,13 @@ public class Formation : MonoBehaviour
     private void CalculateOffset()
     {
         centerOffset = new Vector3(ScaledHorizontal * (columns - 1) / 2, -ScaledVertical * (rows - 1) / 2);
+    }
+
+    private void DrawGrid()
+    {
+        Bounds bounds = _collider.bounds;
+        grid.Clear();
+        grid.Create(bounds.min, bounds.max, rows, columns, scale);
     }
 
     // Repositions the Troops to align with the center of the Formation.
