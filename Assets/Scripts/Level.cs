@@ -72,7 +72,6 @@ public class Level : MonoBehaviour
 
     private void ResetFormation(Formation formation, string formationStr, bool scaled = false)
     {
-        formation.Clear();
         CreateFormationFromText(formation, formationStr, scaled);
     }
 

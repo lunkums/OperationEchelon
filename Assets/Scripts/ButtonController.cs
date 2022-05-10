@@ -9,6 +9,9 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private GameObject[] operationButtons;
     [SerializeField] private Level level;
     [SerializeField] private GameObject rowSelector;
+    [SerializeField] private float secondsBeforeShowPreview;
+    [SerializeField] private Formation preview;
+    [SerializeField] private LayerMask currentFormationLayer;
 
     private List<GameObject> activeOperationButtons;
 
@@ -19,6 +22,9 @@ public class ButtonController : MonoBehaviour
     private int selectionsNeeded;
     private int selectionsMade;
 
+    private Vector3 lastMousePos;
+    private float timer;
+
     public bool CanPerformOperations { get; private set; }
     public Operation CurrentOperation { get; private set; }
 
@@ -28,6 +34,8 @@ public class ButtonController : MonoBehaviour
     private void Awake()
     {
         activeOperationButtons = new List<GameObject>();
+        lastMousePos = Input.mousePosition;
+        timer = secondsBeforeShowPreview;
     }
 
     private void OnEnable()
@@ -51,7 +59,7 @@ public class ButtonController : MonoBehaviour
     public void SetOperation(int operation)
     {
         CurrentOperation = (Operation)operation;
-        updateBehaviour = GetRow;
+        updateBehaviour = ListenForRowSelection;
         // Get the selection variables ready
         selectionsNeeded = CurrentOperation.SelectionsNeeded();
         selectionsMade = 0;
@@ -102,21 +110,37 @@ public class ButtonController : MonoBehaviour
     /* An update behaviour that checks to see if there is a mouse click within the
        formation and, if so, checks which row was selected. Prompts multiple times for
        operations that require multiple rows. */
-    private void GetRow()
+    private void ListenForRowSelection()
     {
-        if (!Input.GetMouseButtonDown(0))
-            return;
-
         Formation formation;
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        RaycastHit2D hit = Physics2D.Raycast(mousePos, Vector2.zero);
+        RaycastHit2D hit;
+        Vector3 currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        bool mouseClicked = Input.GetMouseButtonDown(0);
+        bool hasMouseMoved = lastMousePos != currentMousePos;
+        lastMousePos = currentMousePos;
+        timer -= Time.deltaTime;
 
-        if (hit.collider == null || !hit.transform.TryGetComponent(out formation) || !formation.Interactable)
+        if (hasMouseMoved || mouseClicked)
+        {
+            ClearPreview();
+        }
+
+        hit = Physics2D.Raycast(lastMousePos, Vector2.zero, float.MaxValue, currentFormationLayer.value);
+        if (hit.collider == null || !hit.transform.TryGetComponent(out formation))
             return;
 
-        selections[selectionsMade] = formation.SelectRow(mousePos);
+        formation.Position = Vector3.back;
+        selections[selectionsMade] = formation.SelectRow(lastMousePos);
+        if (mouseClicked)
+            SelectRow(formation);
+        else if (!hasMouseMoved && timer < 0)
+            PreviewMove(formation);
+    }
+
+    private void SelectRow(Formation formation)
+    {
         rowSelector.SetActive(true);
-        rowSelector.transform.position = formation.RowSelectorPosition;
+        rowSelector.transform.position = formation.RowSelectorPosition + 3 * Vector3.back;
 
         if (selections[0] != selections[1])
             selectionsMade++;
@@ -127,5 +151,27 @@ public class ButtonController : MonoBehaviour
 
         formation.ApplyMove(new Move(CurrentOperation, selections));
         ClearOperation();
+    }
+
+    private void PreviewMove(Formation formation)
+    {
+        if (selectionsMade != selectionsNeeded - 1)
+            return;
+        preview.Position = Vector3.back;
+        formation.Position = Vector3.forward;
+        if (preview.Active == true)
+            return;
+
+        preview.Active = true;
+        preview.Copy(formation);
+        preview.ApplyMove(new Move(CurrentOperation, selections));
+    }
+
+    private void ClearPreview()
+    {
+        preview.Position = Vector3.forward;
+        preview.Clear();
+        preview.Active = false;
+        timer = secondsBeforeShowPreview;
     }
 }

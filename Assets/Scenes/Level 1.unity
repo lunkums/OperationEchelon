@@ -404,6 +404,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 331091798464811346, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 464663535649214484, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -535,6 +539,10 @@ PrefabInstance:
     - target: {fileID: 3651193953309666502, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3744006702815665066, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 4445597894898931774, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
       propertyPath: m_AnchorMax.y
@@ -668,6 +676,18 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6566775276271264414, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7230463248828011238, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8034427342447694272, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
+      propertyPath: secondsBeforeShowPreview
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8054271068893702356, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -695,6 +715,10 @@ PrefabInstance:
     - target: {fileID: 8281633120895962700, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8281633120926061738, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8281633120926061739, guid: 55334a6f30246bc47aaf5ac5c68afb1c, type: 3}
       propertyPath: interactable

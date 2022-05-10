@@ -74,4 +74,16 @@ public static class TroopExtensions
     {
         return Math.Abs(t1.SignedRank + t2.SignedRank) <= (int)Rank.General;
     }
+
+    public static int[,] ToMatrix(this Troop[,] troops)
+    {
+        int rows = troops.GetLength(0), columns = troops.GetLength(1), i, j;
+        int[,] matrix = new int[rows, columns];
+
+        for (i = 0; i < rows; i++)
+            for (j = 0; j < columns; j++)
+                matrix[i, j] = troops[i, j].SignedRank;
+
+        return matrix;
+    }
 }

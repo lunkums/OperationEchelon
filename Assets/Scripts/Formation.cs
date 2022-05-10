@@ -27,9 +27,10 @@ public class Formation : MonoBehaviour
     private float ScaledVertical => verticalSpacing * Scale;
 
     public Troop[,] Troops => currentLayout;
-    public bool Interactable => interactable;
     public float Scale { get => persistentScale * scale; set => scale = value; }
     public Vector3 RowSelectorPosition { get; private set; }
+    public Vector3 Position { get => _transform.position; set => _transform.position = value; }
+    public bool Active { get => gameObject.activeSelf; set => gameObject.SetActive(value); }
 
     public event Action<Move> OnMoveAttempt;
     public delegate bool MoveStrategy(int[] selections);
@@ -53,6 +54,11 @@ public class Formation : MonoBehaviour
         troopContainer.localPosition = Vector3.zero;
     }
 
+    public void Copy(Formation formation)
+    {
+        SetFromMatrix(formation.Troops.ToMatrix());
+    }
+
     // Returns the row of the Formation given a position within it.
     public int SelectRow(Vector3 position)
     {
@@ -65,7 +71,7 @@ public class Formation : MonoBehaviour
     public void ApplyMove(Move move)
     {
         move.Valid = operations[move.Operation].Invoke(move.Selections);
-        OnMoveAttempt.Invoke(move);
+        OnMoveAttempt?.Invoke(move);
     }
 
     // Sets the Formation using a 2D array (matrix).
@@ -73,10 +79,11 @@ public class Formation : MonoBehaviour
     {
         int i, j, rank;
         Troop troop;
+
+        Clear();
         rows = matrix.GetLength(0);
         columns = matrix.GetLength(1);
         currentLayout = new Troop[rows, columns];
-
         for (i  = 0; i < rows; i++)
         {
             for (j = 0; j < columns; j++)
