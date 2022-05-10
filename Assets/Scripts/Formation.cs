@@ -8,7 +8,6 @@ public class Formation : MonoBehaviour
     [SerializeField] private Transform troopContainer;
     [SerializeField] private Transform _transform;
     [SerializeField] private BoxCollider2D _collider;
-    [SerializeField] private bool interactable;
     [SerializeField] private FormationGrid grid;
     // Position data
     [Range(0f, 2f)][SerializeField] private float persistentScale = 1f;
