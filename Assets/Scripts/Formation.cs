@@ -59,12 +59,12 @@ public class Formation : MonoBehaviour
     }
 
     // Returns the row of the Formation given a position within it.
-    public int SelectRow(Vector3 position)
+    public bool TrySelectRow(Vector3 position, out int row)
     {
         float topEdgeYCoord = _transform.position.y + rows * ScaledHorizontal / 2;
-        int row = (int)((topEdgeYCoord - position.y) / ScaledHorizontal);
+        row = (int)((topEdgeYCoord - position.y) / ScaledHorizontal);
         RowSelectorPosition = new Vector3(-(columns + 1) / 2f * ScaledVertical, topEdgeYCoord - (row + 0.5f) * ScaledHorizontal);
-        return row;
+        return _collider.bounds.Contains(position);
     }
 
     public void ApplyMove(Move move)

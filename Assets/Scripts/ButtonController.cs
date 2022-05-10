@@ -8,10 +8,11 @@ public class ButtonController : MonoBehaviour
     [SerializeField] private GameObject cancelButton;
     [SerializeField] private GameObject[] operationButtons;
     [SerializeField] private Level level;
+    [SerializeField] private Formation currentFormation;
     [SerializeField] private GameObject rowSelector;
     [SerializeField] private float secondsBeforeShowPreview;
+    [SerializeField] private float mouseMoveLeeway;
     [SerializeField] private Formation preview;
-    [SerializeField] private LayerMask currentFormationLayer;
 
     private List<GameObject> activeOperationButtons;
 
@@ -24,6 +25,7 @@ public class ButtonController : MonoBehaviour
 
     private Vector3 lastMousePos;
     private float timer;
+    private Vector3 currentFormationPos;
 
     public bool CanPerformOperations { get; private set; }
     public Operation CurrentOperation { get; private set; }
@@ -36,6 +38,7 @@ public class ButtonController : MonoBehaviour
         activeOperationButtons = new List<GameObject>();
         lastMousePos = Input.mousePosition;
         timer = secondsBeforeShowPreview;
+        currentFormationPos = currentFormation.Position;
     }
 
     private void OnEnable()
@@ -85,11 +88,6 @@ public class ButtonController : MonoBehaviour
         AudioManager.Instance.Play(buttonSound.Name);
     }
 
-    private void AllowOperation(int index)
-    {
-        activeOperationButtons.Add(operationButtons[index]);
-    }
-
     private void Restart()
     {
         updateBehaviour = () => { };
@@ -112,63 +110,57 @@ public class ButtonController : MonoBehaviour
        operations that require multiple rows. */
     private void ListenForRowSelection()
     {
-        Formation formation;
-        RaycastHit2D hit;
         Vector3 currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         bool mouseClicked = Input.GetMouseButtonDown(0);
-        bool hasMouseMoved = lastMousePos != currentMousePos;
+        bool hasMouseMoved = Vector3.Distance(lastMousePos, currentMousePos) > mouseMoveLeeway;
+        bool validRowSelection = currentFormation.TrySelectRow(new Vector3(currentMousePos.x, currentMousePos.y, currentFormation.Position.z), out int row);
         lastMousePos = currentMousePos;
         timer -= Time.deltaTime;
 
-        if (hasMouseMoved || mouseClicked)
-        {
+        if (hasMouseMoved || mouseClicked || !validRowSelection)
             ClearPreview();
+
+        if (validRowSelection)
+        {
+            selections[selectionsMade] = row;
+            if (mouseClicked)
+                SelectRow();
+            else if (!hasMouseMoved && timer < 0)
+                PreviewMove();
         }
-
-        hit = Physics2D.Raycast(lastMousePos, Vector2.zero, float.MaxValue, currentFormationLayer.value);
-        if (hit.collider == null || !hit.transform.TryGetComponent(out formation))
-            return;
-
-        formation.Position = Vector3.back;
-        selections[selectionsMade] = formation.SelectRow(lastMousePos);
-        if (mouseClicked)
-            SelectRow(formation);
-        else if (!hasMouseMoved && timer < 0)
-            PreviewMove(formation);
     }
 
-    private void SelectRow(Formation formation)
+    private void SelectRow()
     {
         rowSelector.SetActive(true);
-        rowSelector.transform.position = formation.RowSelectorPosition + 3 * Vector3.back;
+        rowSelector.transform.position = currentFormation.RowSelectorPosition + 3 * Vector3.back;
 
         if (selections[0] != selections[1])
             selectionsMade++;
         OnRowSelect.Invoke(selections[selectionsMade - 1]);
 
-        if (selectionsMade != selectionsNeeded)
-            return;
-
-        formation.ApplyMove(new Move(CurrentOperation, selections));
-        ClearOperation();
+        if (selectionsMade == selectionsNeeded)
+        {
+            currentFormation.ApplyMove(new Move(CurrentOperation, selections));
+            ClearOperation();
+        }
     }
 
-    private void PreviewMove(Formation formation)
+    private void PreviewMove()
     {
         if (selectionsMade != selectionsNeeded - 1)
             return;
-        preview.Position = Vector3.back;
-        formation.Position = Vector3.forward;
-        if (preview.Active == true)
-            return;
 
+        preview.Position = Vector3.back;
+        currentFormation.Position = Vector3.forward;
         preview.Active = true;
-        preview.Copy(formation);
+        preview.Copy(currentFormation);
         preview.ApplyMove(new Move(CurrentOperation, selections));
     }
 
     private void ClearPreview()
     {
+        currentFormation.Position = currentFormationPos;
         preview.Position = Vector3.forward;
         preview.Clear();
         preview.Active = false;

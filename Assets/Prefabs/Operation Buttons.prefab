@@ -93,6 +93,7 @@ MonoBehaviour:
   level: {fileID: 0}
   rowSelector: {fileID: 0}
   secondsBeforeShowPreview: 2
+  mouseMoveLeeway: 0.1
   preview: {fileID: 0}
   currentFormationLayer:
     serializedVersion: 2

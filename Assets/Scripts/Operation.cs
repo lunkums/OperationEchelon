@@ -22,12 +22,9 @@ public static class OperationExtensions
         { Operation.None, 0 },
     };
 
-    private static Dictionary<int, string> selectionText = new Dictionary<int, string>()
-    {
-        { 1, "Select a row to " },
-        { 2, "Select 2 rows to " },
-        { 0, "Select an operation" }
-    };
+    private static string[] selectionText = new string[]{ "Select an operation", "Select a row to ", "Select 2 rows to " };
+
+    private static string[] selectionSuffix = new string[] { "", "\n(hover to preview)", "" };
 
     public static int SelectionsNeeded(this Operation operation)
     {
@@ -40,7 +37,7 @@ public static class OperationExtensions
         string text = selectionText[selectionsNeeded];
 
         if (selectionsNeeded != 0)
-            text += operation.ToString();
+            text += operation.ToString() + selectionSuffix[selectionsNeeded];
         return text;
     }
 }

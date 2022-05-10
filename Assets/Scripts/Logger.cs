@@ -38,7 +38,7 @@ public class Logger : MonoBehaviour
 
     private void LogRowSelection(int row)
     {
-        selectedRowText.text = "Selected row " + (row + 1) + ", select another row";
+        selectedRowText.text = "Selected row " + (row + 1) + ", select another row (hover to preview)";
     }
 
     private void LogOperation(Operation operation)
