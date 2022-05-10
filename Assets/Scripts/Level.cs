@@ -33,7 +33,7 @@ public class Level : MonoBehaviour
     {
         // Clean up the old formation and create a new one
         ResetFormation(currentFormation, initialFormationStr);
-        ResetFormation(optimalFormation, optimalFormationStr);
+        ResetFormation(optimalFormation, optimalFormationStr, true);
         // Reset level state
         movesLeft = totalMoves;
         OnRestart.Invoke();
@@ -70,15 +70,15 @@ public class Level : MonoBehaviour
             OnWin.Invoke(false);
     }
 
-    private void ResetFormation(Formation formation, string formationStr)
+    private void ResetFormation(Formation formation, string formationStr, bool scaled = false)
     {
         formation.Clear();
-        CreateFormationFromText(formation, formationStr);
+        CreateFormationFromText(formation, formationStr, scaled);
     }
 
     /* Creates a Formation by parsing the text representation of a matrix into a 2D int,
        then loading it into the Formation. */
-    private void CreateFormationFromText(Formation formation, string s)
+    private void CreateFormationFromText(Formation formation, string s, bool scaled = false)
     {
         int i = 0, j;
         string[] rows = s.Split('\n');
@@ -95,6 +95,10 @@ public class Level : MonoBehaviour
             }
             i++;
         }
+
+        if (scaled)
+            formation.Scale = 1 / (float)Math.Log(Math.Max(result.GetLength(0), result.GetLength(1)) + 1, 2);
+
         formation.SetFromMatrix(result);
     }
 }

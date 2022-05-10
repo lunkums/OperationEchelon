@@ -262,7 +262,7 @@ MonoBehaviour:
   _collider: {fileID: 3442741314974708442}
   interactable: 1
   grid: {fileID: 8623064644049105740}
-  scale: 1
+  persistentScale: 1.5
   horizontalSpacing: 1
   verticalSpacing: 1
 --- !u!61 &3442741314974708442

@@ -11,7 +11,7 @@ public class Formation : MonoBehaviour
     [SerializeField] private bool interactable;
     [SerializeField] private FormationGrid grid;
     // Position data
-    [Range(0f, 1f)][SerializeField] private float scale = 1f;
+    [Range(0f, 2f)][SerializeField] private float persistentScale = 1f;
     [Range(1f, 2f)][SerializeField] private float horizontalSpacing;
     [Range(1f, 2f)] [SerializeField] private float verticalSpacing;
     private Vector3 centerOffset;
@@ -19,14 +19,16 @@ public class Formation : MonoBehaviour
     private Troop[,] currentLayout;
     private int rows;
     private int columns;
+    private float scale;
     // Maps Operations (enum) to their respective Formation move
     private Dictionary<Operation, MoveStrategy> operations;
 
-    private float ScaledHorizontal => horizontalSpacing * scale;
-    private float ScaledVertical => verticalSpacing * scale;
+    private float ScaledHorizontal => horizontalSpacing * Scale;
+    private float ScaledVertical => verticalSpacing * Scale;
 
     public Troop[,] Troops => currentLayout;
     public bool Interactable => interactable;
+    public float Scale { get => persistentScale * scale; set => scale = value; }
     public Vector3 RowSelectorPosition { get; private set; }
 
     public event Action<Move> OnMoveAttempt;
@@ -34,6 +36,7 @@ public class Formation : MonoBehaviour
 
     private void Awake()
     {
+        scale = 1;
         operations = new Dictionary<Operation, MoveStrategy>();
         operations.Add(Operation.Convert, (selections) => Convert(selections));
         operations.Add(Operation.Promote, (selections) => Promote(selections));
@@ -55,7 +58,7 @@ public class Formation : MonoBehaviour
     {
         float topEdgeYCoord = _transform.position.y + rows * ScaledHorizontal / 2;
         int row = (int)((topEdgeYCoord - position.y) / ScaledHorizontal);
-        RowSelectorPosition = new Vector3(-(columns + 1) / 2f, topEdgeYCoord - (row + 0.5f) * ScaledHorizontal);
+        RowSelectorPosition = new Vector3(-(columns + 1) / 2f * ScaledVertical, topEdgeYCoord - (row + 0.5f) * ScaledHorizontal);
         return row;
     }
 
@@ -81,7 +84,7 @@ public class Formation : MonoBehaviour
                 troop = Instantiate(troopPrefab);
                 rank = matrix[i, j];
                 troop.SetSignedRank(rank);
-                troop.Scale = scale;
+                troop.Scale = Scale;
                 troop.Parent = troopContainer.transform;
                 currentLayout[i, j] = troop;
             }
@@ -120,7 +123,7 @@ public class Formation : MonoBehaviour
     {
         Bounds bounds = _collider.bounds;
         grid.Clear();
-        grid.Create(bounds.min, bounds.max, rows, columns, scale);
+        grid.Create(bounds.min, bounds.max, rows, columns, Scale);
     }
 
     // Repositions the Troops to align with the center of the Formation.

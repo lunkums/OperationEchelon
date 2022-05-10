@@ -86,9 +86,9 @@ MonoBehaviour:
   cancelButton: {fileID: 7745065375876295297}
   operationButtons:
   - {fileID: 3029639399201096524}
+  - {fileID: 5146641471678535824}
   - {fileID: 2814964801775857738}
   - {fileID: 7089860105035203028}
-  - {fileID: 5146641471678535824}
   - {fileID: 4199802136923303713}
   level: {fileID: 0}
   rowSelector: {fileID: 0}
