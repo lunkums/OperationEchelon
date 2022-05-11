@@ -1,3 +1,5 @@
+using System;
+using UnityEditor;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -47,8 +49,14 @@ public class LevelManager : MonoBehaviour
         LoadLevelFromIndex((indexOfCurrentLevel + 1) % levelFiles.Length);
     }
 
+    public void LoadPreviousLevel()
+    {
+        LoadLevelFromIndex(Math.Max(indexOfCurrentLevel - 1, 0));
+    }
+
     public void LoadLevelFromIndex(int level)
     {
+        Debug.Log("Loading level : " + levelFiles[indexOfCurrentLevel = level].name);
         currentLevel.CreateLevelFromText(levelFiles[indexOfCurrentLevel = level]);
     }
 
@@ -62,5 +70,10 @@ public class LevelManager : MonoBehaviour
             sfxName = loseSfx.Name;
 
         AudioManager.Instance.Play(sfxName);
+    }
+
+    private void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0, 100, 100), "Level : " + (indexOfCurrentLevel + 1) + "/" + levelFiles.Length);
     }
 }

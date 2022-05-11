@@ -91,13 +91,11 @@ MonoBehaviour:
   - {fileID: 7089860105035203028}
   - {fileID: 4199802136923303713}
   level: {fileID: 0}
+  currentFormation: {fileID: 0}
   rowSelector: {fileID: 0}
-  secondsBeforeShowPreview: 2
-  mouseMoveLeeway: 0.1
+  secondsBeforeShowPreview: 0.6666667
+  mouseMoveLeeway: 0.025
   preview: {fileID: 0}
-  currentFormationLayer:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!1001 &496605641428698750
 PrefabInstance:
   m_ObjectHideFlags: 0

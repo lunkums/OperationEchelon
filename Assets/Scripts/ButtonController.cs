@@ -93,6 +93,7 @@ public class ButtonController : MonoBehaviour
         updateBehaviour = () => { };
         selectionsNeeded = 0;
         CanPerformOperations = true;
+        ActivateOperationButtons(false);
         activeOperationButtons.Clear();
         foreach (int i in level.AllowableOperations)
             activeOperationButtons.Add(operationButtons[i]);

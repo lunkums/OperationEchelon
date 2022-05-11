@@ -14,6 +14,7 @@ public class History : MonoBehaviour
     [SerializeField] private float secondsBetweenTypes;
     private float countdown;
     private Queue<char> charQueue;
+    private bool newWordEntered;
     // Maps a prefix to the number of rows a move uses
     private Dictionary<int, string> selectionPrefix;
     private Dictionary<Operation, string> selectionSuffix;
@@ -33,6 +34,7 @@ public class History : MonoBehaviour
             { Operation.Attack, " - " + Operation.Attack + " will result in a rank higher than " + Rank.General }
         };
         charQueue = new Queue<char>();
+        newWordEntered = false;
     }
 
     private void Start()
@@ -67,8 +69,9 @@ public class History : MonoBehaviour
         {
             text.text += c;
 
-            if (Random.Range(0, 1f) < clackFrequency)
+            if (newWordEntered || charQueue.Count == 0 || Random.Range(0, 1f) < clackFrequency)
             {
+                newWordEntered = false;
                 randomClack = typewriterClacks[Random.Range(0, typewriterClacks.Length - 1)];
                 AudioManager.Instance.Play(randomClack.Name);
             }
@@ -97,6 +100,7 @@ public class History : MonoBehaviour
 
         foreach (char c in text)
             charQueue.Enqueue(c);
+        newWordEntered = true;
     }
 
     // Gets the specific message for a Move using its Operation and selected rows.

@@ -7,6 +7,13 @@ public class WinPanel : MonoBehaviour
     [SerializeField] private GameObject winPanel;
     [SerializeField] private GameObject losePanel;
 
+    private bool levelOver;
+
+    private void Awake()
+    {
+        levelOver = false;
+    }
+
     private void OnEnable()
     {
         level.OnWin += EnableWinPanel;
@@ -26,11 +33,13 @@ public class WinPanel : MonoBehaviour
 
     private void EnableWinPanel(bool hasWon)
     {
+        levelOver = true;
         StartCoroutine(DelayedEnableWinPanel(hasWon));
     }
 
     private void DisableWinPanel()
     {
+        levelOver = false;
         winPanel.SetActive(false);
         losePanel.SetActive(false);
     }
@@ -38,7 +47,7 @@ public class WinPanel : MonoBehaviour
     private IEnumerator DelayedEnableWinPanel(bool hasWon)
     {
         yield return new WaitForSeconds(1);
-        winPanel.SetActive(hasWon);
-        losePanel.SetActive(!hasWon);
+        winPanel.SetActive(hasWon && levelOver);
+        losePanel.SetActive(!hasWon && levelOver);
     }
 }

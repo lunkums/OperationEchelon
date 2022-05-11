@@ -25,7 +25,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 12807785}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -111,7 +111,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4694077245995700}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10, y: 0, z: -1}
+  m_LocalPosition: {x: -10.15, y: 0.5, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -964,7 +964,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5905804123424603950}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: -1}
+  m_LocalPosition: {x: 10.15, y: 0.5, z: -1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2665,7 +2665,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0.0000076293945}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 1, y: 1}
 --- !u!222 &8281633121967357244
@@ -3040,7 +3040,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 8281633120895962701}
   m_HandleRect: {fileID: 8281633120895962700}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -3786,6 +3786,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8281633121541897671}
     m_Modifications:
+    - target: {fileID: 755830700373842024, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 3991080087881300220, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
       propertyPath: m_Parameters.colorGradient.key0.a
       value: 1
@@ -3838,21 +3842,33 @@ PrefabInstance:
       propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
       value: 0.7058824
       objectReference: {fileID: 0}
+    - target: {fileID: 4400127313431630480, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4893220790871981256, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180303640908213156, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8938311874604965264, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
       propertyPath: m_Name
       value: Current Formation
       objectReference: {fileID: 0}
+    - target: {fileID: 8938311874604965264, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 8938311874604965265, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
       propertyPath: verticalSpacing
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8938311874604965265, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
       propertyPath: horizontalSpacing
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8938311874604965266, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
       propertyPath: m_RootOrder
@@ -4129,6 +4145,10 @@ PrefabInstance:
       propertyPath: rowSelector
       value: 
       objectReference: {fileID: 5725769668130435086}
+    - target: {fileID: 3991650043970343993, guid: 4c02b6e5e738951409949ed49a71e286, type: 3}
+      propertyPath: currentFormation
+      value: 
+      objectReference: {fileID: 8281633120926061739}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4c02b6e5e738951409949ed49a71e286, type: 3}
 --- !u!114 &8034427342447694272 stripped
@@ -4272,6 +4292,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8281633121541897671}
     m_Modifications:
+    - target: {fileID: 3991080087881300220, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991080087881300220, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991080087881300220, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991080087881300220, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Parameters.colorGradient.key0.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991080087881300220, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991080087881300220, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991080087881300220, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991080087881300220, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Parameters.colorGradient.key1.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3991080087881300220, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[0].value
+      value: 0.0598011
+      objectReference: {fileID: 0}
     - target: {fileID: 8938311874604965264, guid: 5697ee3b761ec7b45ac813094172005a, type: 3}
       propertyPath: m_Name
       value: Optimal Formation
