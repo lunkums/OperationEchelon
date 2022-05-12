@@ -31,7 +31,7 @@ public class History : MonoBehaviour
         {
             { Operation.Promote, " - Cannot " + Operation.Promote + " past " + Rank.General },
             { Operation.Demote, " - Cannot " + Operation.Demote + " below " + Rank.Private },
-            { Operation.Attack, " - " + Operation.Attack + " will result in a rank higher than " + Rank.General }
+            { Operation.Reinforce, " - " + Operation.Reinforce + " will result in a rank higher than " + Rank.General }
         };
         charQueue = new Queue<char>();
         newWordEntered = false;

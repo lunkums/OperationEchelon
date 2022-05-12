@@ -6,7 +6,7 @@ public enum Operation
     Swap,
     Promote,
     Demote,
-    Attack,
+    Reinforce,
     None
 }
 
@@ -18,7 +18,7 @@ public static class OperationExtensions
         { Operation.Promote, 1 },
         { Operation.Demote, 1 },
         { Operation.Swap, 2 },
-        { Operation.Attack, 2 },
+        { Operation.Reinforce, 2 },
         { Operation.None, 0 },
     };
 

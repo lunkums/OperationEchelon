@@ -42,7 +42,7 @@ public class Formation : MonoBehaviour
         operations.Add(Operation.Promote, (selections) => Promote(selections));
         operations.Add(Operation.Demote, (selections) => Demote(selections));
         operations.Add(Operation.Swap, (selections) => Swap(selections));
-        operations.Add(Operation.Attack, (selections) => Attack(selections));
+        operations.Add(Operation.Reinforce, (selections) => Reinforce(selections));
     }
 
     public void Clear()
@@ -69,7 +69,8 @@ public class Formation : MonoBehaviour
 
     public void ApplyMove(Move move)
     {
-        move.Valid = operations[move.Operation].Invoke(move.Selections);
+        int[] selections = move.Selections;
+        move.Valid = selections[0] != selections[1] && operations[move.Operation].Invoke(move.Selections);
         OnMoveAttempt?.Invoke(move);
     }
 
@@ -216,7 +217,7 @@ public class Formation : MonoBehaviour
         return true;
     }
 
-    private bool Attack(int[] selections)
+    private bool Reinforce(int[] selections)
     {
         bool isValid = true;
         int j, firstRow = selections[0], secondRow = selections[1];

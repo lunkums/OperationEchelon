@@ -479,7 +479,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2446738421566404148, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_Name
-      value: Attack
+      value: Reinforcement
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421566404148, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_IsActive
@@ -611,7 +611,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421566404155, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -175
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421566404155, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -627,7 +627,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421937948390, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_text
-      value: Attack
+      value: Reinforcement
+      objectReference: {fileID: 0}
+    - target: {fileID: 2446738421937948390, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
+      propertyPath: m_fontSize
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2446738421937948390, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 20
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
@@ -782,7 +790,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421566404155, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -95
+      value: -15
       objectReference: {fileID: 0}
     - target: {fileID: 2446738421566404155, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
