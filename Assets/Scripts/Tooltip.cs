@@ -16,7 +16,7 @@ public class Tooltip : MonoBehaviour
     private bool active;
 
     // I'll be honest; this logic may not be bulletproof, but it appears to work in most cases.
-    private bool Active => active || image.color.a > 0;
+    private bool Active => active && image.color.a > 0;
 
     private void Start()
     {
