@@ -3,6 +3,10 @@ using UnityEngine;
 public class TooltipManager : MonoBehaviour
 {
     [SerializeField] private Tooltip tooltip;
+    [SerializeField] private float tooltipDelay;
+
+    private string header;
+    private string info;
 
     public static TooltipManager Instance { get; private set; }
 
@@ -16,12 +20,20 @@ public class TooltipManager : MonoBehaviour
 
     public void Show(string header, string info)
     {
-        tooltip.SetText(header, info);
-        tooltip.Active = true;
+        this.header = header;
+        this.info = info;
+        Invoke(nameof(ActivateTooltip), tooltipDelay);
     }
 
     public void Hide()
     {
-        tooltip.Active = false;
+        CancelInvoke();
+        tooltip.FadeOut();
+    }
+
+    private void ActivateTooltip()
+    {
+        tooltip.SetText(header, info);
+        tooltip.FadeIn();
     }
 }
