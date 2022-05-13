@@ -41,20 +41,23 @@ public class LevelManager : MonoBehaviour
 
     private void Start()
     {
-        currentLevel.CreateLevelFromText(levelFiles[indexOfCurrentLevel = 0]);
         timer = Time.time;
-        numOfTries = 1;
+        numOfTries = 0;
+        currentLevel.CreateLevelFromText(levelFiles[indexOfCurrentLevel = 0]);
     }
 
     private void OnEnable()
     {
         currentLevel.OnWin += PlayWinSoundEffect;
         currentLevel.OnWin += RecordData;
+        currentLevel.OnRestart += () => { numOfTries++; };
     }
 
     private void OnDisable()
     {
         currentLevel.OnWin -= PlayWinSoundEffect;
+        currentLevel.OnWin -= RecordData;
+        currentLevel.OnRestart -= () => { numOfTries++; };
     }
 
     public void ReturnToMenu()
@@ -74,7 +77,6 @@ public class LevelManager : MonoBehaviour
 
     public void LoadLevelFromIndex(int level)
     {
-        Debug.Log("Loading level : " + NameOfCurrentLevel);
         currentLevel.CreateLevelFromText(levelFiles[indexOfCurrentLevel = level]);
     }
 
@@ -98,7 +100,7 @@ public class LevelManager : MonoBehaviour
         {
             outputLog.WriteLine(NameOfCurrentLevel + ";" + (Time.time - timer) + ";" + numOfTries);
             timer = Time.time;
-            numOfTries = 1;
+            numOfTries = 0;
         }
     }
 
@@ -106,7 +108,7 @@ public class LevelManager : MonoBehaviour
     {
         float width = 175;
         float height = 100;
-        GUI.Label(new Rect(Screen.width - width, Screen.height - height, width, height), "Level : " + (indexOfCurrentLevel + 1) + "/" + levelFiles.Length + "\nPress 'n' to go to the next level\nPress 'b' to go back\nPress 'r' to restart");
+        GUI.Label(new Rect(Screen.width - width, Screen.height - height, width, height), "Level : " + (indexOfCurrentLevel + 1) + "/" + levelFiles.Length + " [" + levelFiles[indexOfCurrentLevel].name + "]\nPress 'n' to go to the next level\nPress 'b' to go back\nPress 'r' to restart");
     }
 
     private void OnApplicationQuit()

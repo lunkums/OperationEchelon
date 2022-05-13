@@ -271,6 +271,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Promote
       objectReference: {fileID: 0}
+    - target: {fileID: 5155579314642215717, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
+      propertyPath: operation
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
 --- !u!224 &2814964801775857733 stripped
@@ -637,6 +641,10 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 5155579314642215717, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
+      propertyPath: operation
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
 --- !u!1 &4199802136923303713 stripped
@@ -807,6 +815,10 @@ PrefabInstance:
     - target: {fileID: 2446738421937948390, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_text
       value: Demote
+      objectReference: {fileID: 0}
+    - target: {fileID: 5155579314642215717, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
+      propertyPath: operation
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
@@ -979,6 +991,10 @@ PrefabInstance:
       propertyPath: m_text
       value: Cancel
       objectReference: {fileID: 0}
+    - target: {fileID: 5155579314642215717, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
+      propertyPath: operation
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
 --- !u!1 &7745065375876295297 stripped
@@ -1149,6 +1165,10 @@ PrefabInstance:
     - target: {fileID: 2446738421937948390, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
       propertyPath: m_text
       value: Swap
+      objectReference: {fileID: 0}
+    - target: {fileID: 5155579314642215717, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
+      propertyPath: operation
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de10b461c476d864fa5ec4168d6615e0, type: 3}
