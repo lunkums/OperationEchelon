@@ -108,7 +108,7 @@ public class LevelManager : MonoBehaviour
     {
         float width = 175;
         float height = 100;
-        GUI.Label(new Rect(Screen.width - width, Screen.height - height, width, height), "Level : " + (indexOfCurrentLevel + 1) + "/" + levelFiles.Length + " [" + levelFiles[indexOfCurrentLevel].name + "]\nPress 'n' to go to the next level\nPress 'b' to go back\nPress 'r' to restart");
+        GUI.Label(new Rect(Screen.width - width, Screen.height - height, width, height), "Level : " + (indexOfCurrentLevel + 1) + "/" + levelFiles.Length + " [" + levelFiles[indexOfCurrentLevel].name + "]\nPress 'n' to go to the next level\nPress 'b' to go back\nPress 'r' to restart the level\nPress 'q' to quit");
     }
 
     private void OnApplicationQuit()

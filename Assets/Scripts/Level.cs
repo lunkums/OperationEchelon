@@ -59,6 +59,8 @@ public class Level : MonoBehaviour
             LevelManager.Instance.LoadNextLevel();
         else if (Input.GetKeyDown(KeyCode.B))
             LevelManager.Instance.LoadPreviousLevel();
+        else if (Input.GetKeyDown(KeyCode.Q))
+            Application.Quit();
     }
 
     private void FormationMoveListener(Move move)
