@@ -14,6 +14,7 @@ public class Formation : MonoBehaviour
     [Range(1f, 2f)][SerializeField] private float horizontalSpacing;
     [Range(1f, 2f)] [SerializeField] private float verticalSpacing;
     private Vector3 centerOffset;
+    private Vector3 originalPosition;
     // Matrix data
     private Troop[,] currentLayout;
     private int rows;
@@ -37,6 +38,7 @@ public class Formation : MonoBehaviour
     private void Awake()
     {
         scale = 1;
+        originalPosition = Position;
         operations = new Dictionary<Operation, MoveStrategy>();
         operations.Add(Operation.Convert, (selections) => Convert(selections));
         operations.Add(Operation.Promote, (selections) => Promote(selections));
@@ -48,6 +50,7 @@ public class Formation : MonoBehaviour
     public void Clear()
     {
         Destroy(troopContainer.gameObject);
+        Position = originalPosition;
         troopContainer = new GameObject("Troops").transform;
         troopContainer.parent = _transform;
         troopContainer.localPosition = Vector3.zero;

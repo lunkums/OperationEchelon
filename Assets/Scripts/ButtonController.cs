@@ -90,10 +90,12 @@ public class ButtonController : MonoBehaviour
 
     private void Restart()
     {
+        ClearPreview();
         updateBehaviour = () => { };
         selectionsNeeded = 0;
         CanPerformOperations = true;
         cancelButton.SetActive(false);
+        rowSelector.SetActive(false);
         ActivateOperationButtons(false);
         activeOperationButtons.Clear();
         foreach (int i in level.AllowableOperations)

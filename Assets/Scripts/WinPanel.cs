@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class WinPanel : MonoBehaviour
@@ -6,24 +5,50 @@ public class WinPanel : MonoBehaviour
     [SerializeField] private Level level;
     [SerializeField] private GameObject winPanel;
     [SerializeField] private GameObject losePanel;
+    [SerializeField] private float showPanelDelay;
+    [SerializeField] private GameObject maximizeButton;
+    [SerializeField] private GameObject minimizeButton;
 
     private bool levelOver;
+    private bool hasWon;
 
     private void Awake()
     {
         levelOver = false;
+        hasWon = false;
     }
 
     private void OnEnable()
     {
-        level.OnWin += EnableWinPanel;
-        level.OnRestart += DisableWinPanel;
+        level.OnWin += SetWinPanel;
+        level.OnRestart += ResetWinPanel;
     }
 
     private void OnDisable()
     {
-        level.OnWin -= EnableWinPanel;
-        level.OnRestart -= DisableWinPanel;
+        level.OnWin -= SetWinPanel;
+        level.OnRestart -= ResetWinPanel;
+    }
+
+    public void DisableWinPanel()
+    {
+        CancelInvoke();
+        winPanel.SetActive(false);
+        losePanel.SetActive(false);
+        EnableMinimizeButton(false);
+    }
+
+    public void EnableWinPanel()
+    {
+        winPanel.SetActive(hasWon && levelOver);
+        losePanel.SetActive(!hasWon && levelOver);
+        EnableMinimizeButton(true);
+    }
+
+    public void EnableMinimizeButton(bool active)
+    {
+        minimizeButton.SetActive(active && levelOver);
+        maximizeButton.SetActive(!active && levelOver);
     }
 
     public void Continue()
@@ -31,23 +56,21 @@ public class WinPanel : MonoBehaviour
         LevelManager.Instance.LoadNextLevel();
     }
 
-    private void EnableWinPanel(bool hasWon)
+    private void SetWinPanel(bool hasWon)
     {
+        this.hasWon = hasWon;
         levelOver = true;
-        StartCoroutine(DelayedEnableWinPanel(hasWon));
+        EnableWinPanel(showPanelDelay);
     }
 
-    private void DisableWinPanel()
+    private void ResetWinPanel()
     {
-        levelOver = false;
-        winPanel.SetActive(false);
-        losePanel.SetActive(false);
+        levelOver = hasWon = false;
+        DisableWinPanel();
     }
 
-    private IEnumerator DelayedEnableWinPanel(bool hasWon)
+    private void EnableWinPanel(float delayInSeconds)
     {
-        yield return new WaitForSeconds(1);
-        winPanel.SetActive(hasWon && levelOver);
-        losePanel.SetActive(!hasWon && levelOver);
+        Invoke(nameof(EnableWinPanel), delayInSeconds);
     }
 }

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c96bbd6205140245abd52950dc51e78, type: 3}
   m_Name: Win
   m_EditorClassIdentifier: 
-  clip: {fileID: 8300000, guid: 5dd6a8da8e7f674419a99e0f251247d0, type: 3}
+  clip: {fileID: 8300000, guid: de435b69bf55293438f93921824d93ef, type: 3}
   type: 1
   _name: You Win
